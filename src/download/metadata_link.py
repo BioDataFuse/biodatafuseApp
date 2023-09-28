@@ -2,7 +2,7 @@ import json
 import base64
 
 def download_json_as_link(
-    metadata_path: str,
+    metadata: dict,
     filename: str):
     """create a download link for the metadata of the queries.
 
@@ -10,7 +10,6 @@ def download_json_as_link(
     @param filename: filename     
     """
 
-    metadata = json.load(open(metadata_path))    
     res = json.dumps(
         metadata,
         indent = 4,

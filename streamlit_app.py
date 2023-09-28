@@ -162,8 +162,8 @@ def render_query():
 
                     # metadata
                     metadata={}
-                    metadata["identifier_mapping"] = bridgdb_metadata
-                    metadata["query_datasources"] = combined_metadata
+                    metadata["id_mapping"] = bridgdb_metadata
+                    metadata["queries"] = combined_metadata
                     metadata_url = download_json_as_link(metadata, "BioDataFuse_metadata")
                     st.markdown(
                         metadata_url,
