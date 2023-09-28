@@ -12,7 +12,6 @@ from src.download.data_link import download_tsv_as_link
 from src.download.metadata_link import download_json_as_link
 from src.visualization.cytoscape import importNetworkToCytoscape
 
-
 ## import the CSS styling
 with open("style.css") as file:
     st.markdown(
@@ -70,7 +69,7 @@ def render_query():
         st.write(f"Selected identifier type: {identifier_type}")
 
         # Step 5: Convert idenifiers using BridgeDb
-        identifiers_df = id_mapper.bridgedb_Xref(
+        identifiers_df, bridgdb_metadata = id_mapper.bridgedb_Xref(
             identifiers_df["identifier"],
             inputSpecies = "Human",
             inputDatasource = identifier_type,
@@ -130,19 +129,13 @@ def render_query():
                 st.warning("To visualize the query results in Cytoscape, please start the app.",
                            icon = "⚠️")
                 
-                # # Remove the existing metadata.json file
-                # try:
-                #     os.remove(os.path.join(DATA_DIR, "metadata.json"))
-                # except OSError:
-                #     pass
-
                 query_button = st.button(
                     "Query",
                     key = "query_button")
 
             # Step 9: Execute selected functions when the "Query" button is clicked
             if selected_sources_list and query_button:
-                combined_data = process_selected_sources(identifiers_df, selected_sources_list)
+                combined_data, combined_metadata = process_selected_sources(identifiers_df, selected_sources_list)
                 
                 # Check if the DataFrame is empty
                 if combined_data.empty:
@@ -168,8 +161,10 @@ def render_query():
                         unsafe_allow_html = True)
 
                     # metadata
-                    metadata_path = os.path.join(DATA_DIR, "metadata.json")
-                    metadata_url = download_json_as_link(metadata_path, "BioDataFuse_metadata")
+                    metadata={}
+                    metadata["identifier_mapping"] = bridgdb_metadata
+                    metadata["query_datasources"] = combined_metadata
+                    metadata_url = download_json_as_link(metadata, "BioDataFuse_metadata")
                     st.markdown(
                         metadata_url,
                         unsafe_allow_html = True)

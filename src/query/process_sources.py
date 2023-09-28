@@ -19,6 +19,7 @@ def process_selected_sources(bridgedb_df: pd.DataFrame,
 
     # Initialize variables
     combined_data = pd.DataFrame()
+    combined_metadata = {}
     # Dictionary to map the datasource names to their corresponding functions
     data_source_functions = {
         "WikiPathway": wikipathways.annotateGenesWithWikipathwaysPathways,
@@ -36,16 +37,18 @@ def process_selected_sources(bridgedb_df: pd.DataFrame,
         if source in data_source_functions:
             if options:
                 for option in options:
-                    tmp = data_source_functions[source][option](bridgedb_df)
-                    if tmp.empty:
+                    tmp_data, tmp_metadata = data_source_functions[source][option](bridgedb_df)
+                    combined_metadata[source][option] = tmp_metadata
+                    if tmp_data.empty:
                         st.warning(f"No annotation available for {source}(option: {option})")
-                    if not tmp.empty:
-                        combined_data = combine_sources([combined_data, tmp])
+                    if not tmp_data.empty:
+                        combined_data = combine_sources([combined_data, tmp_data])
             else:
-                tmp = data_source_functions[source](bridgedb_df)
-                if tmp.empty:
+                tmp_data, tmp_metadata = data_source_functions[source](bridgedb_df)
+                combined_metadata[source] = tmp_metadata
+                if tmp_data.empty:
                     st.warning(f"No annotation available for {source}")
-                if not tmp.empty:
-                    combined_data = combine_sources([combined_data, tmp])
+                if not tmp_data.empty:
+                    combined_data = combine_sources([combined_data, tmp_data])
 
-    return combined_data
+    return combined_data, combined_metadata
