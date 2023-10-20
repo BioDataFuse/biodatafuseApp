@@ -1,13 +1,16 @@
+# -*- coding: utf-8 -*-
+
 import pandas as pd
 import base64
 
 def download_tsv_as_link(
     data: pd.DataFrame,
-    filename: str):
+    filename: str
+):
     """create a download link for the output table of queries.
 
-    @param data: combined output table
-    @param filename: filename     
+    :param data: combined output table
+    :param filename: filename     
     """
 
     res = data.to_csv(
