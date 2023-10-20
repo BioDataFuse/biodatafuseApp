@@ -1,13 +1,16 @@
+# -*- coding: utf-8 -*-
+
 import json
 import base64
 
 def download_json_as_link(
     metadata: dict,
-    filename: str):
+    filename: str
+):
     """create a download link for the metadata of the queries.
 
-    @param metadata_path: the path to the metadata
-    @param filename: filename     
+    :param metadata_path: the path to the metadata
+    :param filename: filename     
     """
 
     res = json.dumps(
