@@ -29,6 +29,7 @@ def process_selected_sources(
         "WikiPathway": wikipathways.get_gene_pathway,
         "DisGeNet": disgenet.get_gene_disease,
         "OpenTarget": {
+            "Metadata": opentargets.get_version,
             "Gene location": opentargets.get_gene_location,
             "Gene Ontology (GO)": opentargets.get_gene_go_process,
             "Reactome pathways": opentargets.get_gene_reactome_pathways,
@@ -40,7 +41,10 @@ def process_selected_sources(
 
     for source, options in selected_sources_list:
         if source in data_source_functions:
-            if options:
+            if source == "OpenTarget":
+                tmp_metadata = data_source_functions[source]["Metadata"]()
+                combined_metadata[source] = tmp_metadata
+
                 for option in options:
                     tmp_data, tmp_metadata = data_source_functions[source][option](
                         bridgedb_df
@@ -52,6 +56,14 @@ def process_selected_sources(
                         )
                     if not tmp_data.empty:
                         combined_data = combine_sources([combined_data, tmp_data])
+            elif source == "WikiPathway":
+                combined_metadata[source] = {}
+                tmp_data = data_source_functions[source](bridgedb_df)
+                if tmp_data.empty:
+                    st.warning(f"No annotation available for {source}")
+                if not tmp_data.empty:
+                    combined_data = combine_sources([combined_data, tmp_data])
+
             else:
                 tmp_data, tmp_metadata = data_source_functions[source](bridgedb_df)
                 combined_metadata[source] = tmp_metadata

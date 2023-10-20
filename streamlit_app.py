@@ -69,14 +69,14 @@ def render_query():
         st.write(f"Selected identifier type: {identifier_type}")
 
         # Step 5: Convert idenifiers using BridgeDb
-        identifiers_df, bridgdb_metadata = id_mapper.bridgedb_Xref(
-            identifiers_df["identifier"],
-            inputSpecies = "Human",
-            inputDatasource = identifier_type,
-            outputDatasource = "All")
+        bridgdb_df, bridgdb_metadata = id_mapper.bridgedb_xref(
+            identifiers = identifiers_df["identifier"],
+            input_species = "Human",
+            input_datasource = identifier_type,
+            output_datasource = "All")
 
         # Check if the input is valid
-        if identifiers_df["target"].str.strip().eq("").all():
+        if bridgdb_df["target"].str.strip().eq("").all():
             st.warning(
                 f"The input is not valid",
                 icon = "🚨")
@@ -135,7 +135,7 @@ def render_query():
 
             # Step 9: Execute selected functions when the "Query" button is clicked
             if selected_sources_list and query_button:
-                combined_data, combined_metadata = process_selected_sources(identifiers_df, selected_sources_list)
+                combined_data, combined_metadata = process_selected_sources(bridgdb_df, selected_sources_list)
                 
                 # Check if the DataFrame is empty
                 if combined_data.empty:
