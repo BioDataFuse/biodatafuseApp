@@ -5,7 +5,6 @@ from requests.exceptions import RequestException
 from pyBiodatafuse import id_mapper
 from pyBiodatafuse.constants import DATA_DIR
 import sys
-sys.path.append("E:\BioDataFuse\BioDataFuse_app")
 from constants import MAIN_DIR
 from src.query.process_ids import process_identifiers
 from src.query.process_sources import process_selected_sources
