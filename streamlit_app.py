@@ -6,6 +6,7 @@ from pyBiodatafuse import id_mapper
 from pyBiodatafuse.constants import DATA_DIR
 import sys
 sys.path.append("E:\BioDataFuse\BioDataFuse_app")
+from constants import MAIN_DIR
 from src.query.process_ids import process_identifiers
 from src.query.process_sources import process_selected_sources
 from src.download.data_link import download_tsv_as_link
@@ -13,7 +14,7 @@ from src.download.metadata_link import download_json_as_link
 from src.visualization.cytoscape import importNetworkToCytoscape
 
 ## import the CSS styling
-with open("style.css") as file:
+with open(f"{MAIN_DIR}\style.css") as file:
     st.markdown(
         f"<style>{file.read()}</style>",
         unsafe_allow_html = True)
@@ -179,7 +180,7 @@ def render_analysis():
     st.write("To be developed")
 
 # Add sidebar
-logo = Image.open("logo.png")
+logo = Image.open(f"{MAIN_DIR}\logo.png")
 st.sidebar.image(logo)
 st.sidebar.markdown(
     "<h1 style='font-size: 40px; text-align: center;'>BioDataFuse</h1>",
