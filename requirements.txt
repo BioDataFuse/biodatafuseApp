@@ -1,5 +1,5 @@
 streamlit==1.27.2
-pyBiodatafuse==0.0.3-dev0
+pyBiodatafuse
 Pillow
 py4cytoscape
 protobuf~=3.19.0
