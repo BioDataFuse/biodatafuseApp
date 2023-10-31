@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from collections import defaultdict
-from pyBiodatafuse.annotators import wikipathways, disgenet, opentargets
+from pyBiodatafuse.annotators import wikipathways, disgenet, opentargets, stringdb
 from pyBiodatafuse.utils import combine_sources
 
 
@@ -22,13 +22,13 @@ def process_selected_sources(
         "WikiPathway": wikipathways.get_gene_wikipathway,
         "DisGeNet": disgenet.get_gene_disease,
         "OpenTarget": {
-            "Metadata": opentargets.get_version,
             "Gene location": opentargets.get_gene_location,
             "Gene Ontology (GO)": opentargets.get_gene_go_process,
             "Reactome pathways": opentargets.get_gene_reactome_pathways,
             "Drug interactions": opentargets.get_gene_drug_interactions,
             "Disease associations": opentargets.get_gene_disease_associations,
         },
+        "STRING-DB": stringdb.get_ppi
     }
 
     for source, options in selected_sources_list:
@@ -38,6 +38,7 @@ def process_selected_sources(
                     tmp_data, tmp_metadata = data_source_functions[source][option](
                         bridgedb_df
                     )
+                    print(tmp_data)
                     combined_metadata[source][option] = tmp_metadata
                     if tmp_data.empty:
                         st.warning(

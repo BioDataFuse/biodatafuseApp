@@ -7,7 +7,7 @@ import sys
 from src.constants import MAIN_DIR
 from src.query.process_ids import process_identifiers
 from src.query.process_sources import process_selected_sources
-from src.download.data_link import download_tsv_as_link
+from src.download.data_link import download_tsv_as_link, download_parquet_as_link
 from src.download.metadata_link import download_json_as_link
 from src.visualization.cytoscape import importNetworkToCytoscape
 
@@ -90,7 +90,7 @@ def render_query():
                 unsafe_allow_html=True,
             )
             selected_sources = st.multiselect(
-                "**Select datasources**", ["WikiPathway", "DisGeNet", "OpenTarget"]
+                "**Select datasources**", ["WikiPathway", "DisGeNet", "OpenTarget", "STRING-DB"]
             )
 
             # Dictionary to map data sources to their additional options
@@ -179,6 +179,13 @@ def render_query():
                         combined_data, "BioDataFuse_combined_table"
                     )
                     st.markdown(tsv_url, unsafe_allow_html=True)
+
+                    # parquet
+
+                    parquet_url = download_parquet_as_link(
+                        combined_data, "BioDataFuse_combined_table_parquet"
+                    )
+                    st.markdown(parquet_url, unsafe_allow_html=True)
 
 
 def render_analysis():
