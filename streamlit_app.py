@@ -11,6 +11,9 @@ from src.download.data_link import download_tsv_as_link
 from src.download.metadata_link import download_json_as_link
 from src.visualization.cytoscape import importNetworkToCytoscape
 
+st.set_page_config(
+    layout="wide", page_title="BioDataFuse")
+
 ## import the CSS styling
 with open(f"{MAIN_DIR}/style.css") as file:
     st.markdown(
