@@ -1,2 +1,1 @@
-# biodatafuseApp
-BioDataFuse user interface dashboard
+# BioDataFuse user interface dashboard
