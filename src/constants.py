@@ -4,5 +4,5 @@
 
 import os
 
-HERE = os.path.dirname(os.path.realpath(__file__))  # App path
+HERE = os.path.dirname(os.path.realpath(__file__))  # src path
 MAIN_DIR = os.path.join(HERE, "..")  # Main path
