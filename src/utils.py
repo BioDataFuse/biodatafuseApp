@@ -6,10 +6,7 @@ import os
 from typing import List
 import json
 import pandas as pd
-from pyBiodatafuse.constants import(
-    BRIDGEDB_DIR, 
-    DATA_DIR,
-    COMBINED_DIR)
+from pyBiodatafuse.constants import BRIDGEDB_DIR, DATA_DIR, COMBINED_DIR
 
 
 def get_identifier_of_interest(bridgedb_df: pd.DataFrame, source: str) -> pd.DataFrame:
@@ -66,7 +63,7 @@ def create_or_append_to_metadata(data: dict) -> None:
 
     if data["datasource"] not in prev_sources:
         existing_data.append(data)
-    
+
     # Save the updated data back to the file
     with open(metadata_file_path, "w") as file:
         json.dump(list(existing_data), file, indent=4, ensure_ascii=False)
@@ -119,9 +116,10 @@ def collapse_data_sources(
 
     return merged_df
 
+
 def combine_sources(df_list: List[pd.DataFrame]):
     """Combine multiple dataframes into a single dataframe.
-    
+
     @param df_list: list of dataframes to be combined
     """
     m = pd.concat(df_list, axis=1)
@@ -130,5 +128,5 @@ def combine_sources(df_list: List[pd.DataFrame]):
     # Create the directory to save combined data
     os.makedirs(COMBINED_DIR, exist_ok=True)
 
-    m.to_csv(f"{COMBINED_DIR}/combined_annotated_data.tsv", index=False, sep = "\t")
+    m.to_csv(f"{COMBINED_DIR}/combined_annotated_data.tsv", index=False, sep="\t")
     return m
