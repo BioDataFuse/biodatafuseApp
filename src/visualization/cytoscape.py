@@ -1,7 +1,6 @@
 import pandas as pd
 import py4cytoscape as p4c
 import streamlit as st
-from pyBiodatafuse.constants import DATA_DIR
 from pyBiodatafuse.utils import create_or_append_to_metadata
 
 """Python file for exporting the network to Cytoscape."""
@@ -259,8 +258,8 @@ def importNetworkToCytoscape(
             cytoscape_metadata
         )  # Call the function from the metadata module
 
-        print(f"The query metadata is appended: {DATA_DIR}\metadata.json")
-
+        """ print(f"The query metadata is appended: {DATA_DIR}\metadata.json")
+ """
         return None
     else:
         st.success("No graph to import to Cytoscape.", icon =  "🚨")

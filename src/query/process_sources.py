@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+from collections import defaultdict
 from pyBiodatafuse.annotators import(
     wikipathways,
     disgenet,
@@ -19,10 +20,10 @@ def process_selected_sources(bridgedb_df: pd.DataFrame,
 
     # Initialize variables
     combined_data = pd.DataFrame()
-    combined_metadata = {}
+    combined_metadata = defaultdict(lambda: defaultdict(str))
     # Dictionary to map the datasource names to their corresponding functions
     data_source_functions = {
-        "WikiPathway": wikipathways.get_gene_pathway,
+        "WikiPathway": wikipathways.get_gene_wikipathway,
         "DisGeNet": disgenet.get_gene_disease,
         "OpenTarget": {
             "Metadata": opentargets.get_version,
@@ -36,12 +37,10 @@ def process_selected_sources(bridgedb_df: pd.DataFrame,
 
     for source, options in selected_sources_list:
         if source in data_source_functions:
-            if source == "OpenTarget":
-                tmp_metadata = data_source_functions[source]["Metadata"]()
-                combined_metadata[source] = tmp_metadata
-
+            if options:
                 for option in options:
-                    tmp_data = data_source_functions[source][option](bridgedb_df)
+                    tmp_data, tmp_metadata = data_source_functions[source][option](bridgedb_df)
+                    combined_metadata[source][option] = tmp_metadata
                     if tmp_data.empty:
                         st.warning(f"No annotation available for {source}(option: {option})")
                     if not tmp_data.empty:
