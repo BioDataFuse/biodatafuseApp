@@ -245,21 +245,15 @@ def importNetworkToCytoscape(
         
         st.success("Data imported to Cytoscape!", icon = "✅")
 
-        """Metdata details"""
-        # Add version to metadata file
-        cytoscape_version = p4c.cytoscape_version_info()
-        # Add the datasource, query, query time, and the date to metadata
-        cytoscape_metadata = {
-            "datasource": "Cytoscape",
-            "metadata": {"source_version": cytoscape_version}
-        }
+        # """Metdata details"""
+        # # Add version to metadata file
+        # cytoscape_version = p4c.cytoscape_version_info()
+        # # Add the datasource, query, query time, and the date to metadata
+        # cytoscape_metadata = {
+        #     "datasource": "Cytoscape",
+        #     "metadata": {"source_version": cytoscape_version}
+        # }
 
-        create_or_append_to_metadata(
-            cytoscape_metadata
-        )  # Call the function from the metadata module
-
-        """ print(f"The query metadata is appended: {DATA_DIR}\metadata.json")
- """
         return None
     else:
         st.success("No graph to import to Cytoscape.", icon =  "🚨")
