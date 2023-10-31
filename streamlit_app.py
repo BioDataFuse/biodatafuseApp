@@ -1,9 +1,11 @@
+# coding: utf-8
+
+"""Main file for the streamlit application."""
+
 import streamlit as st
-import os
 from PIL import Image
 from requests.exceptions import RequestException
 from pyBiodatafuse import id_mapper
-import sys
 from src.constants import MAIN_DIR
 from src.query.process_ids import process_identifiers
 from src.query.process_sources import process_selected_sources
@@ -23,10 +25,23 @@ analysis = "📊Analysis"
 
 
 def render_about():
-    st.markdown(
-        "<h1 style='font-size: 16px; text-align: justify; font-face: Italic'>To be added</h1>",
-        unsafe_allow_html=True,
-    )
+    """Render the about page"""
+    with open("./README.md", "r", encoding="utf-8") as f:
+        readme_lines = f.readlines()
+        readme_buffer = []
+
+        images = ["modular_queries_info.png"]
+
+        for line in readme_lines:
+            readme_buffer.append(line)
+            for image in images:
+                if image in line:
+                    st.markdown(" ".join(readme_buffer[:-1]))
+                    st.image(
+                        f"https://raw.githubusercontent.com/elixir-europe/biohackathon-projects-2023/main/17/modular_queries_info.png"
+                    )
+                    readme_buffer.clear()
+        st.markdown(" ".join(readme_buffer))
 
 
 def render_query():
@@ -90,7 +105,8 @@ def render_query():
                 unsafe_allow_html=True,
             )
             selected_sources = st.multiselect(
-                "**Select datasources**", ["WikiPathway", "DisGeNet", "OpenTarget", "STRING-DB"]
+                "**Select datasources**",
+                ["WikiPathway", "DisGeNet", "OpenTarget", "STRING-DB"],
             )
 
             # Dictionary to map data sources to their additional options
@@ -189,7 +205,7 @@ def render_query():
 
 
 def render_analysis():
-    st.write("To be developed")
+    st.write("Deveoplemnt in progress...")
 
 
 # Add sidebar
@@ -205,7 +221,7 @@ st.sidebar.markdown(
 )
 
 # Create a list of options for the sidebar
-options = ["📄About", "🔍Query biological databases", "📊Analysis"]
+options = [about, query, analysis]
 display_page = st.sidebar.radio("Select a page:", options, label_visibility="collapsed")
 
 st.subheader(f"**{display_page}**", divider="rainbow")
