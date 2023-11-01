@@ -9,7 +9,7 @@ from pyBiodatafuse import id_mapper
 from src.constants import MAIN_DIR
 from src.query.process_ids import process_identifiers
 from src.query.process_sources import process_selected_sources
-from src.download.data_link import download_tsv_as_link, download_parquet_as_link
+from src.download.data_link import download_tsv_as_link, download_pickle_as_link
 from src.download.metadata_link import download_json_as_link
 from src.visualization.cytoscape import importNetworkToCytoscape
 
@@ -198,10 +198,10 @@ def render_query():
 
                     # parquet
 
-                    parquet_url = download_parquet_as_link(
-                        combined_data, "BioDataFuse_combined_table_parquet"
+                    pickle_url = download_pickle_as_link(
+                        combined_data, "BioDataFuse_combined_table_pickle"
                     )
-                    st.markdown(parquet_url, unsafe_allow_html=True)
+                    st.markdown(pickle_url, unsafe_allow_html=True)
 
 
 def render_analysis():

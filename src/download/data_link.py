@@ -1,5 +1,6 @@
 import pandas as pd
 import base64
+import pickle
 
 
 def download_tsv_as_link(data: pd.DataFrame, filename: str):
@@ -16,15 +17,15 @@ def download_tsv_as_link(data: pd.DataFrame, filename: str):
     return download_url
 
 
-def download_parquet_as_link(data: pd.DataFrame, filename: str):
-    """create a download link for the output of queries in parquet format.
+def download_pickle_as_link(data: pd.DataFrame, filename: str):
+    """create a download link for the output of queries in pickle format.
 
-    @param data: combined output table in parquet
+    @param data: combined output table in pickle
     @param filename: filename
     """
 
-    res = data.to_parquet()
+    res = pickle.dumps(data)
     b64 = base64.b64encode(res).decode()
-    download_url = f'<a href="data:application/octet-stream;base64,{b64}" download="{filename}.pq">**Download output parquet file**</a>'
+    download_url = f'<a href="data:application/octet-stream;base64,{b64}" download="{filename}.pkl">**Download output pickle file**</a>'
 
     return download_url
