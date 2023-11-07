@@ -89,7 +89,7 @@ def render_query():
 
         # Step 5: Convert idenifiers using BridgeDb
         bridgdb_df, bridgdb_metadata = id_mapper.bridgedb_xref(
-            identifiers=identifiers_df["identifier"],
+            identifiers=identifiers_df,
             input_species="Human",
             input_datasource=identifier_type,
             output_datasource="All",
